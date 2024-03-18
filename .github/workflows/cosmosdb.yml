@@ -20,8 +20,15 @@ jobs:
 
       - name: Install certificate
         run: |
+          retries=0
+          max_retries=100
           until sudo curl -ksf "https://localhost:8081/_explorer/emulator.pem" -o '/usr/local/share/ca-certificates/cosmos.crt'; do
-            echo "Downloading certificate failed, retrying in 1 second..."
+            echo "($retries/$max_retries) Downloading certificate failed, retrying in 1 second..."
+            retries=$((retries+1))
+            if [ $retries -ge $max_retries ]; then
+              echo "Maximum retries reached. Exiting..."
+              exit 1
+            fi
             sleep 1
           done
           sudo update-ca-certificates
