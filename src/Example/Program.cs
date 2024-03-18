@@ -22,3 +22,5 @@ var item = new
 };
 
 await container.UpsertItemAsync(item);
+
+Console.WriteLine("Item created");
