@@ -21,7 +21,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
-          --health-start-period 30s
+          --health-start-period 90s
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
