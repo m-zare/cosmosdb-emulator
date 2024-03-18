@@ -17,7 +17,7 @@ jobs:
           - 8081:8081
           - 10250-10255:10250-10255
         options: >-
-          --health-cmd "curl -f https://localhost:8081/_explorer/healthcheck"
+          --health-cmd "curl -kf https://localhost:8081/_explorer/healthcheck"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
