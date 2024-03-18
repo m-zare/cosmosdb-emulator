@@ -1,0 +1,30 @@
+name: Run Cosmos DB Emulator
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      cosmos:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - 8081:8081
+          - 10250-10255:10250-10255
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install certificate
+        run: |
+          curl -k https://cosmos:8081/_explorer/emulator.pem > ~/emulatorcert.crt
+          sudo cp ~/emulatorcert.crt /usr/local/share/ca-certificates/emulatorcert.crt
+          sudo update-ca-certificates
+
+      - name: Run Example
+        working-directory: ./src/Example
+        run: dotnet run
+          
