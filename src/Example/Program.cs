@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 
 using CosmosClient client = new(
-    accountEndpoint: "https://cosmos:8081/",
+    accountEndpoint: "https://localhost:8081/",
     authKeyOrResourceToken: "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
 );
 
