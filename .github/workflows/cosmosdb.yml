@@ -16,24 +16,21 @@ jobs:
         ports:
           - 8081:8081
           - 10250-10255:10250-10255
+        options: >-
+          --health-cmd "[ -e /tmp/cosmos/appdata/.system/profiles/Client/AppData/Local/CosmosDBEmulator/emulator.pem ] || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install certificate
         run: |
-          retries=0
-          max_retries=100
-          until sudo curl -ksf "https://localhost:8081/_explorer/emulator.pem" -o '/usr/local/share/ca-certificates/cosmos.crt'; do
-            echo "($retries/$max_retries) Downloading certificate failed, retrying in 1 second..."
-            retries=$((retries+1))
-            if [ $retries -ge $max_retries ]; then
-              echo "Maximum retries reached. Exiting..."
-              exit 1
-            fi
-            sleep 1
-          done
+          sudo curl -ksf "https://localhost:8081/_explorer/emulator.pem" -o '/usr/local/share/ca-certificates/cosmos.crt'
           sudo update-ca-certificates
+          command -v dotnet
+          command -v dotnet >/dev/null 2>&1 && dotnet dev-certs https --trust
 
       - name: Run Example
         working-directory: ./src/Example
