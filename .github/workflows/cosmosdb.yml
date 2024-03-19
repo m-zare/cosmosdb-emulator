@@ -17,11 +17,10 @@ jobs:
           - 8081:8081
           - 10250-10255:10250-10255
         options: >-
-          --health-cmd "curl --insecure --silent --fail https://localhost:8081/_explorer/healthcheck || exit 1"
+          --health-cmd "[ -e /tmp/cosmos/appdata/.system/profiles/Client/AppData/Local/CosmosDBEmulator/emulator.pem ] || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
-          --health-start-period 90s
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
