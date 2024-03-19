@@ -29,6 +29,8 @@ jobs:
         run: |
           sudo curl -ksf "https://localhost:8081/_explorer/emulator.pem" -o '/usr/local/share/ca-certificates/cosmos.crt'
           sudo update-ca-certificates
+          command -v dotnet
+          command -v dotnet >/dev/null 2>&1 && dotnet dev-certs https --trust
 
       - name: Run Example
         working-directory: ./src/Example
